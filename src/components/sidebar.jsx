@@ -72,8 +72,8 @@ export default function Sidebar({ className, isCollapsed, setIsCollapsed }) {
             <div
               className={`flex flex-col justify-end truncate ${isCollapsed ? 'invisible w-0' : 'visible w-auto'}`}
             >
-              <span className='font-medium'>Admin Starter</span>
-              <span className='text-xs'>ANTOPOLIS</span>
+              <span className='font-medium'>Ecommerce-V1</span>
+              <span className='text-xs'>Jubayer</span>
             </div>
           </div>
 
