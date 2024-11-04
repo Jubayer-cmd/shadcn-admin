@@ -1,15 +1,15 @@
 import { useMutation } from '@tanstack/react-query'
-import useAxiosSecure from './useAxiosSecure'
+import { useAxiosSecure, useAxiosPublic } from './useAxios'
 
-const usePostData = (onSuccess = () => {}) => {
-  const axiosSecure = useAxiosSecure()
+const usePostData = (onSuccess = () => {}, secure = true) => {
+  const axiosInstance = secure ? useAxiosSecure() : useAxiosPublic()
 
   return useMutation({
     mutationFn: (object) => {
       const { method, url, data = null } = object
-      if (method === 'post') return axiosSecure.post(url, data)
-      if (method === 'patch') return axiosSecure.patch(url, data)
-      if (method === 'delete') return axiosSecure.delete(url)
+      if (method === 'post') return axiosInstance.post(url, data)
+      if (method === 'patch') return axiosInstance.patch(url, data)
+      if (method === 'delete') return axiosInstance.delete(url)
     },
     onSuccess,
   })

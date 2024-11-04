@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
-import PropTypes from 'prop-types'
 import useAxiosSecure from './useAxiosSecure'
-import useAxiosPublic from './useAxiosPublic'
+import useAxiosPublic from './useAxiosPublic.jsx'
 import useAuth from './useAuth'
 
 const useFetchData = (qKey, url, dependencies = {}, secure = false) => {
@@ -24,11 +23,6 @@ const useFetchData = (qKey, url, dependencies = {}, secure = false) => {
     },
   })
   return { data, isLoading, refetch, error }
-}
-
-useFetchData.propTypes = {
-  qKey: PropTypes.string.isRequired,
-  url: PropTypes.string.isRequired,
 }
 
 export default useFetchData

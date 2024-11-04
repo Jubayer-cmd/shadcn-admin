@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import { z } from 'zod'
@@ -14,9 +14,9 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/custom/button'
-
 import { cn } from '@/lib/utils'
 import { PasswordInput } from '@/components/password-input'
+import { useAuth } from '@/lib/AuthProvider'
 
 const formSchema = z.object({
   email: z
@@ -34,6 +34,7 @@ const formSchema = z.object({
 })
 
 export function UserAuthForm({ className, ...props }) {
+  const { login } = useAuth()
   const [isLoading, setIsLoading] = useState(false)
 
   const form = useForm({
@@ -44,13 +45,16 @@ export function UserAuthForm({ className, ...props }) {
     },
   })
 
-  function onSubmit(data) {
+  async function onSubmit(data) {
     setIsLoading(true)
-    console.log(data)
-
-    setTimeout(() => {
+    try {
+      // Call the login function from the AuthProvider with email and password
+      await login(data.email, data.password)
+    } catch (error) {
+      console.error('Login failed:', error)
+    } finally {
       setIsLoading(false)
-    }, 3000)
+    }
   }
 
   return (
