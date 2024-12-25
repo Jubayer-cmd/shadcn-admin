@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
@@ -33,8 +33,9 @@ const formSchema = z.object({
 
 export function UserAuthForm({ className, ...props }) {
   const { login } = useAuth()
+  const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
-
+  const navigate = useNavigate()
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -45,9 +46,15 @@ export function UserAuthForm({ className, ...props }) {
 
   async function onSubmit(data) {
     setIsLoading(true)
+    setError('')
     try {
       // Call the login function from the AuthProvider with email and password
-      await login(data.email, data.password)
+      const res = await login(data.email, data.password)
+      if (res.success) {
+        navigate('/')
+      } else {
+        setError('Invalid email or password')
+      }
     } catch (error) {
       console.error('Login failed:', error)
     } finally {
@@ -94,6 +101,11 @@ export function UserAuthForm({ className, ...props }) {
                 </FormItem>
               )}
             />
+            {error && (
+              <FormMessage type='error' className='mt-2'>
+                {error}
+              </FormMessage>
+            )}
             <Button className='mt-2' loading={isLoading}>
               Login
             </Button>

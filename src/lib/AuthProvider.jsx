@@ -22,6 +22,7 @@ export const AuthProvider = ({ children }) => {
           setUser(data.data) // Set the user after fetching from the 'me' endpoint
         } catch (error) {
           // Remove token if error occurs (invalid/expired token)
+          console.log(error)
           localStorage.removeItem('token')
         }
       }
