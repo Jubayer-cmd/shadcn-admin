@@ -1,26 +1,32 @@
 import { DotsHorizontalIcon } from '@radix-ui/react-icons'
-
 import { Button } from '@/components/custom/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { useNavigate } from 'react-router-dom'
 
-import { labels } from '../data/data'
-import { taskSchema } from '../data/schema'
-
-export function DataTableRowActions({ row }) {
-  const task = taskSchema.parse(row.original)
-
+export function DataTableRowActions() {
+  const navigate = useNavigate()
+  let actions = [
+    {
+      label: 'Edit',
+      href: '/tasks/edit/1',
+      separator: true,
+    },
+    {
+      label: 'Delete',
+      href: '/tasks/delete/1',
+      separator: true,
+    },
+    {
+      label: 'Delete',
+      href: '/tasks/delete/1',
+    },
+  ]
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -33,27 +39,20 @@ export function DataTableRowActions({ row }) {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align='end' className='w-[160px]'>
-        <DropdownMenuItem>Edit</DropdownMenuItem>
-        <DropdownMenuItem>Make a copy</DropdownMenuItem>
-        <DropdownMenuItem>Favorite</DropdownMenuItem>
-        <DropdownMenuSeparator />
-        <DropdownMenuSub>
-          <DropdownMenuSubTrigger>Labels</DropdownMenuSubTrigger>
-          <DropdownMenuSubContent>
-            <DropdownMenuRadioGroup value={task.label}>
-              {labels.map((label) => (
-                <DropdownMenuRadioItem key={label.value} value={label.value}>
-                  {label.label}
-                </DropdownMenuRadioItem>
-              ))}
-            </DropdownMenuRadioGroup>
-          </DropdownMenuSubContent>
-        </DropdownMenuSub>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          Delete
-          <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
-        </DropdownMenuItem>
+        {actions?.map((action, index) => (
+          <div key={index}>
+            <div
+              onClick={() => {
+                navigate(action.href)
+              }}
+            >
+              <DropdownMenuItem asChild>
+                <a>{action?.label}</a>
+              </DropdownMenuItem>
+            </div>
+            {action.separator && <DropdownMenuSeparator />}
+          </div>
+        ))}
       </DropdownMenuContent>
     </DropdownMenu>
   )

@@ -14,11 +14,13 @@ import {
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/custom/button'
 
-import { cn } from '@/lib/utils'
+import { cn, useAuth } from '@/lib/utils'
 import { PasswordInput } from '@/components/password-input'
 
+// Update the form schema to include a name field
 const formSchema = z
   .object({
+    name: z.string().min(1, { message: 'Please enter your name' }),
     email: z
       .string()
       .min(1, { message: 'Please enter your email' })
@@ -44,19 +46,27 @@ export function SignUpForm({ className, ...props }) {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      name: '',
       email: '',
       password: '',
       confirmPassword: '',
     },
   })
 
-  function onSubmit(data) {
+  const { register } = useAuth() // Initialize the useAuth hook
+
+  async function onSubmit(data) {
     setIsLoading(true)
     console.log(data)
-
-    setTimeout(() => {
+    delete data.confirmPassword // Remove confirmPassword from the data object
+    // Call the register function from useAuth
+    try {
+      await register(data) // Assuming useAuth's register function handles registration logic
       setIsLoading(false)
-    }, 3000)
+    } catch (error) {
+      setIsLoading(false)
+      console.error('Registration failed:', error)
+    }
   }
 
   return (
@@ -64,6 +74,21 @@ export function SignUpForm({ className, ...props }) {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className='grid gap-2'>
+            {/* Name field */}
+            <FormField
+              control={form.control}
+              name='name'
+              render={({ field }) => (
+                <FormItem className='space-y-1'>
+                  <FormLabel>Name</FormLabel>
+                  <FormControl>
+                    <Input placeholder='John Doe' {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            {/* Email field */}
             <FormField
               control={form.control}
               name='email'
@@ -77,6 +102,7 @@ export function SignUpForm({ className, ...props }) {
                 </FormItem>
               )}
             />
+            {/* Password field */}
             <FormField
               control={form.control}
               name='password'
@@ -90,6 +116,7 @@ export function SignUpForm({ className, ...props }) {
                 </FormItem>
               )}
             />
+            {/* Confirm Password field */}
             <FormField
               control={form.control}
               name='confirmPassword'

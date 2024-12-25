@@ -3,7 +3,6 @@ import NotFoundError from './pages/errors/not-found-error.jsx'
 import MaintenanceError from './pages/errors/maintenance-error.jsx'
 import UnauthorisedError from './pages/errors/unauthorised-error.jsx'
 import GeneralErrors from './pages/errors/general-error.jsx'
-import { PublicRoute, ProtectedRoute } from './lib/AuthProvider.jsx'
 import SignIn from './pages/auth/sign-in.jsx'
 import SignIn2 from './pages/auth/sign-in-2.jsx'
 import SignUp from './pages/auth/sign-up.jsx'
@@ -18,6 +17,7 @@ import SettingsAppearance from './pages/settings/appearance/index.jsx'
 import SettingsNotifications from './pages/settings/notifications/index.jsx'
 import SettingsDisplay from './pages/settings/display/index.jsx'
 import ErrorExample from './pages/settings/error-example/index.jsx'
+import { ProtectedRoute, PublicRoute } from './lib/PrivatePublicRoutes.jsx'
 
 const lazyImport = (path) => async () => {
   const module = await import(path)
@@ -29,11 +29,7 @@ const router = createBrowserRouter([
   {
     path: '/sign-in',
     lazy: lazyImport('./pages/auth/sign-in.jsx'),
-    element: (
-      <PublicRoute>
-        <SignIn />
-      </PublicRoute>
-    ),
+    element: <SignIn />,
   },
   {
     path: '/sign-in-2',

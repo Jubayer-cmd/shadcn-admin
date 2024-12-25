@@ -20,7 +20,7 @@ export default function SignIn() {
             >
               <path d='M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3' />
             </svg>
-            Shadcn Admin
+            EcommerceV1
           </div>
 
           <img
@@ -34,11 +34,12 @@ export default function SignIn() {
           <div className='relative z-20 mt-auto'>
             <blockquote className='space-y-2'>
               <p className='text-lg'>
-                &ldquo;This library has saved me countless hours of work and
-                helped me deliver stunning designs to my clients faster than
-                ever before.&rdquo;
+                &ldquo;The magic of e-commerce lies in its ability to
+                personalize the experience for every shopper. The companies that
+                thrive are those that use data not just to sell, but to connect
+                with and understand their customers.&rdquo;
               </p>
-              <footer className='text-sm'>Sofia Davis</footer>
+              <footer className='text-sm'>Doug McMillon, Walmart CEO</footer>
             </blockquote>
           </div>
         </div>

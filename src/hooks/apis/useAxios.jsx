@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import useAuth from './useAuth'
+import { useAuth } from '@/lib/utils'
 
 const URL = 'http://localhost:9000/api/v1/'
 
